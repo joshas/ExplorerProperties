@@ -1,0 +1,3 @@
+[
+	{ "keys": ["Alt+Enter"], "command": "display_explorer_properties" }
+]

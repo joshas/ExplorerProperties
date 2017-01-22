@@ -1,8 +1,5 @@
 from fman import DirectoryPaneCommand
-import os
-import sys
 import ctypes
-import ctypes.wintypes
 
 SEE_MASK_NOCLOSEPROCESS = 0x00000040
 SEE_MASK_INVOKEIDLIST = 0x0000000C
@@ -12,8 +9,8 @@ class SHELLEXECUTEINFO(ctypes.Structure):
         ("cbSize",ctypes.wintypes.DWORD),
         ("fMask",ctypes.c_ulong),
         ("hwnd",ctypes.wintypes.HANDLE),
-        ("lpVerb",ctypes.c_char_p),
-        ("lpFile",ctypes.c_char_p),
+        ("lpVerb",ctypes.c_wchar_p),
+        ("lpFile",ctypes.c_wchar_p),
         ("lpParameters",ctypes.c_char_p),
         ("lpDirectory",ctypes.c_char_p),
         ("nShow",ctypes.c_int),
@@ -33,14 +30,14 @@ class DisplayExplorerProperties(DirectoryPaneCommand):
         if not file_name:
             return
 
-        shell_execute_ex = ctypes.windll.shell32.ShellExecuteEx
+        shell_execute_ex = ctypes.windll.shell32.ShellExecuteExW
         shell_execute_ex.restype = ctypes.wintypes.BOOL
         
         sei = SHELLEXECUTEINFO()
         sei.cbSize = ctypes.sizeof(sei)
         sei.fMask = SEE_MASK_NOCLOSEPROCESS | SEE_MASK_INVOKEIDLIST
-        sei.lpVerb = str.encode("properties")
-        sei.lpFile = str.encode(file_name, sys.getfilesystemencoding())
+        sei.lpVerb = "properties"
+        sei.lpFile = file_name
         sei.nShow = 1
         shell_execute_ex(ctypes.byref(sei))
         

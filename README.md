@@ -5,4 +5,4 @@
 * <kbd>Alt</kbd>+<kbd>Enter</kbd> show properties for file or directory under cursor. Works with drives too.
 
 ## Installation
-Download and extract it to `~/Library/Application Support/fman/Plugins`. Restart fman.
+Download and extract it to `%APPDATA%\fman\Plugins` folder. Restart fman.

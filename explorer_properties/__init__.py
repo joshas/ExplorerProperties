@@ -1,5 +1,6 @@
 from fman import DirectoryPaneCommand
 import os
+import sys
 import ctypes
 import ctypes.wintypes
 
@@ -32,14 +33,14 @@ class DisplayExplorerProperties(DirectoryPaneCommand):
         if not file_name:
             return
 
-        ShellExecuteEx = ctypes.windll.shell32.ShellExecuteEx
-        ShellExecuteEx.restype = ctypes.wintypes.BOOL
+        shell_execute_ex = ctypes.windll.shell32.ShellExecuteEx
+        shell_execute_ex.restype = ctypes.wintypes.BOOL
         
         sei = SHELLEXECUTEINFO()
         sei.cbSize = ctypes.sizeof(sei)
         sei.fMask = SEE_MASK_NOCLOSEPROCESS | SEE_MASK_INVOKEIDLIST
         sei.lpVerb = str.encode("properties")
-        sei.lpFile = str.encode(file_name)
+        sei.lpFile = str.encode(file_name, sys.getfilesystemencoding())
         sei.nShow = 1
-        ShellExecuteEx(ctypes.byref(sei))
+        shell_execute_ex(ctypes.byref(sei))
         

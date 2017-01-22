@@ -29,6 +29,9 @@ class DisplayExplorerProperties(DirectoryPaneCommand):
     def __call__(self):
         file_name = self.pane.get_file_under_cursor()
         
+        if not file_name:
+            return
+
         ShellExecuteEx = ctypes.windll.shell32.ShellExecuteEx
         ShellExecuteEx.restype = ctypes.wintypes.BOOL
         
